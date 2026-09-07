@@ -219,7 +219,12 @@ class DataProcessor:
     def save(self, file_name: str):
         with h5py.File(file_name, "w") as hf:
             for key, value in self.processed_data.items():
-                hf[key] = value
+                options = (
+                    {"compression": "lzf", "shuffle": True}
+                    if key.startswith("observation.images.rgb.")
+                    else {}
+                )
+                hf.create_dataset(key, data=value, **options)
                 
     def check_shape(self):
         for key, value in self.processed_data.items():
@@ -287,7 +292,6 @@ if __name__ == '__main__':
     args = parser.parse_args()
     main(args)
     
-
 
 
 
