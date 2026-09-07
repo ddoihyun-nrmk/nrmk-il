@@ -1,0 +1,62 @@
+### Fixed-box simulation overfit smoke test
+base:
+  policy_class: act
+  task_name: sim_fixed_box_pick
+  seed: 0
+  num_workers: 1
+  logging: false
+
+train:
+  num_epochs: 10
+  batch_size: 4
+  success_detector_batch_size: 4
+  lr: 1e-4
+  lr_backbone: 1e-5
+  weight_decay: 1e-4
+
+policy:
+  robot_mode: single_robot_gripper
+  control_mode: task_space
+
+  temporal_ensemble_momentum: null
+  n_action_steps: 5
+  n_obs_steps: 1
+  chunk_size: 10
+
+  input_shapes:
+    observation.images.rgb.sim: [3, 224, 224]
+    observation.qpos: [6]
+    observation.qvel: [6]
+    observation.prev_gripper_command: [1]
+
+  output_shapes:
+    action.end_pos: [3]
+    action.end_ori: [6]
+    action.gripper_command: [1]
+
+  input_normalization_modes:
+    observation.images.rgb.sim: mean_std
+    observation.qpos: mean_std
+    observation.qvel: mean_std
+
+  output_normalization_modes:
+    action.end_pos: mean_std
+
+  vision_backbone: resnet18
+  pretrained_backbone_weights: ResNet18_Weights.IMAGENET1K_V1
+  replace_final_stride_with_dilation: false
+
+  pre_norm: false
+  dim_model: 128
+  n_heads: 4
+  dim_feedforward: 512
+  feedforward_activation: relu
+  n_encoder_layers: 2
+  n_decoder_layers: 1
+
+  use_vae: false
+  latent_dim: 32
+  n_vae_encoder_layers: 2
+
+  dropout: 0.1
+  kl_weight: 10.0
