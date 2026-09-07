@@ -39,6 +39,9 @@ This repository contains an implementation for training neural network controlle
 ## Further instruction
 Check [train/README.md](train/README.md) and [deploy/README.md](deploy/README.md) to learn more.
 
+The staged Genesis-to-ACT picking work is tracked in the
+[simulation imitation-learning plan](SIMULATION_IMITATION_LEARNING_PLAN.md).
+
 The recommended steps to follow are outlined below:
 1. [Collect data](deploy/README.md#data-collection)
 2. [Train model](train/README.md)
